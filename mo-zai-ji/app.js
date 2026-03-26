@@ -214,7 +214,7 @@
       btnSaveLocalSheet: "存在本地",
       btnPrintFromPreview: "打印 / PDF",
       closePreview: "关闭",
-      brandSub: "简中 · 繁中 · 日 · EN · FR",
+      brandSub: "让我们用你喜欢的方式，慢下来一点点向前走。",
       langLabelZh: "简体中文",
       langLabelZhtw: "繁體中文",
       langLabelJa: "日本語",
@@ -359,7 +359,7 @@
       btnSaveLocalSheet: "Save locally",
       btnPrintFromPreview: "Print / PDF",
       closePreview: "Close",
-      brandSub: "ZH · ZH-TW · JA · EN · FR",
+      brandSub: "Let’s move forward gently, in your own way—one small step at a time.",
       langLabelZh: "简体中文",
       langLabelZhtw: "繁體中文",
       langLabelJa: "日本語",
@@ -504,7 +504,7 @@
       btnSaveLocalSheet: "Enregistrer en local",
       btnPrintFromPreview: "Imprimer / PDF",
       closePreview: "Fermer",
-      brandSub: "ZH · ZH-TW · JA · EN · FR",
+      brandSub: "Avançons doucement, à ta façon, pas à pas.",
       langLabelZh: "简体中文",
       langLabelZhtw: "繁體中文",
       langLabelJa: "日本語",
@@ -918,9 +918,6 @@
 
   function updateUIStrings() {
     $("#btnReset").textContent = t("btnReset");
-    $("#hLangTitle").textContent = t("hLangTitle");
-    $("#pLangHint").textContent = t("pLangHint");
-
     $("#welcomeTitle").textContent = t("welcomeTitle");
     $("#btnWelcomeReady").textContent = t("welcomeReadyBtn");
     const welcomeParas = I18N[state.lang].welcomeParas || I18N.zh.welcomeParas;

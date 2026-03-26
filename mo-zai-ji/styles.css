@@ -81,6 +81,11 @@ body{
   margin-bottom: clamp(20px, 4vw, 36px);
   padding: 0 4px;
 }
+
+.brand{
+  min-width: 0;
+  max-width: min(100%, 36rem);
+}
 .brand-title{
   font-size: clamp(1.35rem, 3.5vw, 1.6rem);
   font-weight: 650;
@@ -92,6 +97,7 @@ body{
   font-size: 0.85rem;
   color: var(--muted);
   font-weight: 500;
+  line-height: 1.55;
 }
 
 /* —— Main: centered, breathing room —— */
@@ -145,6 +151,10 @@ body{
 
 .card--wide{
   max-width: 100%;
+}
+
+.card--lang-only .lang-grid{
+  margin-top: 0;
 }
 
 .h1{
