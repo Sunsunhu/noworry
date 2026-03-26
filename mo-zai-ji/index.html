@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>莫着急（No Worry / T’inquiète pas）</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-title" id="brandTitle">莫着急</div>
+          <div class="brand-sub" id="brandSub">No Worry / T’inquiète pas</div>
+        </div>
+        <div class="top-actions">
+          <button id="btnReset" class="btn btn-ghost" type="button" title="Reset">
+            Reset
+          </button>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- Page 1: Language -->
+        <section id="pageLang" class="page active" aria-label="Language selection">
+          <div class="card glass-card">
+            <h1 id="hLangTitle" class="h1">选择语言</h1>
+            <p id="pLangHint" class="muted">
+              让我们用你喜欢的方式，慢下来一点点。
+            </p>
+
+            <div class="lang-grid lang-grid--five" role="group" aria-label="Select language">
+              <button class="lang-btn" data-lang="zh" type="button" id="langBtnZh">简体中文</button>
+              <button class="lang-btn" data-lang="zh-tw" type="button" id="langBtnZhtw">繁體中文</button>
+              <button class="lang-btn" data-lang="ja" type="button" id="langBtnJa">日本語</button>
+              <button class="lang-btn" data-lang="en" type="button" id="langBtnEn">English</button>
+              <button class="lang-btn" data-lang="fr" type="button" id="langBtnFr">Français</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Page 1b: Welcome (after language) -->
+        <section id="pageWelcome" class="page" aria-label="Welcome">
+          <div class="card welcome-card glass-card">
+            <header class="welcome-head">
+              <h1 id="welcomeTitle" class="welcome-title h1">莫着急</h1>
+            </header>
+            <div class="welcome-middle">
+              <div id="welcomeBody" class="welcome-body"></div>
+            </div>
+            <footer class="welcome-foot welcome-foot--split">
+              <button id="btnBackPrevWelcome" class="btn btn-ghost btn-pill" type="button">返回上一步修改</button>
+              <button id="btnWelcomeReady" class="btn btn-welcome btn-pill" type="button">
+                我准备好了
+              </button>
+            </footer>
+          </div>
+        </section>
+
+        <!-- Page 2: Anxiety input -->
+        <section id="pageInput" class="page" aria-label="Anxiety input">
+          <div class="card glass-card">
+            <h2 id="hInputTitle" class="h2">写下让你焦虑的事情</h2>
+            <p id="pInputHint" class="muted">
+              你可以添加多条。我们会逐条温柔地处理。
+            </p>
+
+            <form id="formAddAnxiety" class="row row--add-anxiety" autocomplete="off">
+              <label class="sr-only" for="anxietyText" id="lblAnxiety"
+                >Anxiety item</label
+              >
+              <input
+                id="anxietyText"
+                class="input"
+                type="text"
+                placeholder="比如：明天要迟到。"
+                maxlength="200"
+              />
+              <div class="anxiety-add-col">
+                <button id="btnAdd" class="btn" type="submit">添加</button>
+                <p id="inputFormHint" class="input-form-hint" aria-live="polite"></p>
+              </div>
+            </form>
+
+            <div class="list" id="anxietyList" aria-label="Anxiety list"></div>
+
+            <div class="actions">
+              <button id="btnBackToLang" class="btn btn-ghost" type="button">Language</button>
+              <button id="btnToQuestions" class="btn btn-primary" type="button" disabled>
+                开始
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Page 3: Questions -->
+        <section id="pageQuestions" class="page" aria-label="Questions flow">
+          <div class="card glass-card card--comfortable">
+            <div class="questions-back no-print">
+              <button id="btnBackPrevQuestions" class="btn btn-ghost btn-small" type="button">返回上一步修改</button>
+            </div>
+            <div class="progress progress--calm" aria-label="Progress">
+              <div class="progress-label" id="qIndexLabel">1 / 1</div>
+              <div class="progress-bar progress-bar--gradient">
+                <div class="progress-fill progress-fill--gradient" id="qProgressFill"></div>
+              </div>
+            </div>
+
+            <h2 id="hQuestionTitle" class="h2">逐条提问</h2>
+            <p id="pWhatYouWrite" class="muted">
+              这件事是：<span id="topicText" class="topic"></span>
+            </p>
+
+            <!-- Step A: can it be changed? -->
+            <div id="stepCanChange" class="step">
+              <div class="question">
+                <div class="question-title" id="qCanChangeTitle">
+                  这件事你可以改变吗？
+                </div>
+                <div class="choice-grid">
+                  <button class="btn btn-secondary choice" data-answer="no" type="button">否</button>
+                  <button class="btn btn-secondary choice" data-answer="yes" type="button">是</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step B: if yes, collect details -->
+            <div id="stepDetails" class="step hidden" aria-label="Details form">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="importance">重要性（1-5）</label>
+                  <div class="scale-picker" data-field="importance" role="radiogroup" aria-label="重要性">
+                    <button class="scale-option" type="button" data-value="1">1</button>
+                    <button class="scale-option" type="button" data-value="2">2</button>
+                    <button class="scale-option" type="button" data-value="3">3</button>
+                    <button class="scale-option" type="button" data-value="4">4</button>
+                    <button class="scale-option" type="button" data-value="5">5</button>
+                  </div>
+                  <input id="importance" type="hidden" />
+                </div>
+                <div class="field">
+                  <label for="urgency">紧迫性（1-5）</label>
+                  <div class="scale-picker" data-field="urgency" role="radiogroup" aria-label="紧迫性">
+                    <button class="scale-option" type="button" data-value="1">1</button>
+                    <button class="scale-option" type="button" data-value="2">2</button>
+                    <button class="scale-option" type="button" data-value="3">3</button>
+                    <button class="scale-option" type="button" data-value="4">4</button>
+                    <button class="scale-option" type="button" data-value="5">5</button>
+                  </div>
+                  <input id="urgency" type="hidden" />
+                </div>
+                <div class="comfort action-encourage" id="actionEncourageWrap">
+                  <div class="comfort-title" id="actionEncourageTitle">行动鼓励</div>
+                  <div class="comfort-text" id="actionEncourageText"></div>
+                  <button type="button" class="btn btn-ghost btn-small" id="btnActionEncourageRefresh">
+                    换一句
+                  </button>
+                </div>
+                <div class="field field-span">
+                  <label id="lblStepsEditor">具体步骤</label>
+                  <p class="muted small-hint" id="hintStepsEditor">
+                    为每一步写上名称，并在后面填写时间与困难程度。
+                  </p>
+                  <div id="stepsList" class="steps-list"></div>
+                  <button type="button" class="btn btn-secondary btn-add-step-after" id="btnAddStepRow">添加步骤</button>
+                </div>
+              </div>
+              <div class="actions">
+                <button id="btnBackToCanChange" class="btn btn-ghost" type="button">返回</button>
+                <button id="btnSaveDetails" class="btn btn-primary" type="button">保存并继续</button>
+              </div>
+              <div id="detailsError" class="error hidden" role="alert"></div>
+            </div>
+
+            <!-- Step C: if no, show comfort sentence -->
+            <div id="stepComfort" class="step hidden" aria-label="Comfort message">
+              <div class="comfort">
+                <div class="comfort-title" id="comfortTitle">安慰的话</div>
+                <div class="comfort-text" id="comfortText"></div>
+              </div>
+              <div class="actions">
+                <button id="btnBackFromComfort" class="btn btn-ghost" type="button">返回上一步修改</button>
+                <button id="btnContinueAfterNo" class="btn btn-primary" type="button">继续</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Page 4: Results -->
+        <section id="pageResult" class="page" aria-label="Result tasks">
+          <div class="card glass-card card--comfortable">
+            <h2 id="hResultTitle" class="h2">你的任务清单</h2>
+            <p id="pResultHint" class="muted">
+              我们把“紧迫”的放前面，并在简单与困难之间交替提醒你。
+            </p>
+
+            <div id="resultTasks" class="tasks" aria-label="Tasks list"></div>
+
+            <div class="actions">
+              <button id="btnBackPrevResult" class="btn btn-ghost" type="button">返回上一步修改</button>
+              <button id="btnRestart" class="btn btn-primary" type="button">再来一次</button>
+              <button id="btnToCalendar" class="btn btn-secondary" type="button">任务月历</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Page 5: Calendar -->
+        <section id="pageCalendar" class="page" aria-label="Task calendar">
+          <div class="card glass-card card--wide card--comfortable">
+            <div class="calendar-top">
+              <div>
+                <h2 id="hCalendarTitle" class="h2">任务月历</h2>
+                <p id="pCalendarHint" class="muted">按计划慢慢来，每一步都算数。</p>
+              </div>
+              <div class="calendar-actions no-print">
+                <button id="btnPrint" class="btn btn-secondary" type="button">导出PDF</button>
+                <button id="btnBackToResult" class="btn btn-ghost" type="button">返回任务清单</button>
+              </div>
+            </div>
+
+            <div class="progress progress--calm">
+              <div class="progress-label" id="calendarProgressText">完成 0 / 0</div>
+              <div class="progress-bar progress-bar--gradient">
+                <div class="progress-fill progress-fill--gradient" id="calendarProgressFill"></div>
+              </div>
+            </div>
+
+            <div class="comfort">
+              <div class="comfort-title" id="encourageTitle">温柔提醒</div>
+              <div class="comfort-text" id="encourageText"></div>
+            </div>
+
+            <div
+              id="acceptRemembrance"
+              class="accept-remembrance no-print"
+              aria-label=""
+              hidden
+            ></div>
+
+            <p id="ganttHint" class="muted gantt-hint no-print"></p>
+
+            <div class="calendar-view-tabs no-print" role="tablist" aria-label="Calendar view">
+              <button type="button" class="btn btn-ghost btn-small cal-view-tab" data-cal-view="day" id="btnCalViewDay">按日</button>
+              <button type="button" class="btn btn-ghost btn-small cal-view-tab" data-cal-view="week" id="btnCalViewWeek">按周</button>
+              <button type="button" class="btn btn-ghost btn-small cal-view-tab" data-cal-view="month" id="btnCalViewMonth">按月</button>
+              <button type="button" class="btn btn-ghost btn-small cal-view-tab" data-cal-view="year" id="btnCalViewYear">按年</button>
+            </div>
+
+            <p id="calPinchHint" class="muted cal-pinch-hint no-print"></p>
+
+            <div class="gantt-scroll" id="ganttScroll">
+              <div id="ganttHost" class="gantt-host" aria-label="Gantt chart" data-px-per-day="56"></div>
+            </div>
+
+            <section id="notesToSelfSection" class="notes-to-self no-print" hidden aria-label="Notes to self"></section>
+
+            <div id="ganttSplitModal" class="gantt-modal hidden no-print" role="dialog" aria-modal="true" aria-labelledby="ganttSplitTitle">
+              <div class="gantt-modal__backdrop" data-close-split></div>
+              <div class="gantt-modal__panel glass-card">
+                <h3 class="h2" id="ganttSplitTitle" style="font-size:1.1rem;margin:0 0 12px">拆分</h3>
+                <p class="muted" id="ganttSplitHint" style="margin:0 0 14px;font-size:0.92rem"></p>
+                <div id="ganttSplitOptions" class="gantt-split-options"></div>
+                <div class="gantt-modal__actions">
+                  <button type="button" class="btn btn-ghost" data-close-split id="btnSplitCancel">取消</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="ganttAllocateModal" class="gantt-modal hidden no-print" role="dialog" aria-modal="true" aria-labelledby="ganttAllocateTitle">
+              <div class="gantt-modal__backdrop" data-close-alloc></div>
+              <div class="gantt-modal__panel glass-card">
+                <h3 class="h2" id="ganttAllocateTitle" style="font-size:1.1rem;margin:0 0 12px">分配时间</h3>
+                <p class="muted" id="ganttAllocateHint" style="margin:0 0 14px;font-size:0.92rem"></p>
+                <div class="gantt-allocate-form">
+                  <label class="sr-only" for="ganttAllocAmount" id="lblGanttAllocAmount">Amount</label>
+                  <input type="number" id="ganttAllocAmount" class="input" min="0.25" step="0.25" value="1" />
+                  <span class="gantt-allocate-x">×</span>
+                  <span class="muted" id="ganttAllocHourWord">小时</span>
+                  <span class="muted">/</span>
+                  <select id="ganttAllocPer" class="input gantt-alloc-per">
+                    <option value="day">每天</option>
+                    <option value="week">每周</option>
+                    <option value="month">每月</option>
+                    <option value="year">每年</option>
+                  </select>
+                </div>
+                <div class="gantt-modal__actions" style="margin-top:18px">
+                  <button type="button" class="btn btn-ghost" data-close-alloc id="btnAllocCancel">取消</button>
+                  <button type="button" class="btn btn-primary" id="btnAllocApply">应用</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span class="muted" id="footerText">莫着急，凡事发生必有利于我。</span>
+      </footer>
+    </div>
+
+    <div id="fireworksOverlay" class="fireworks-overlay no-print" aria-hidden="true"></div>
+
+    <div id="completionCelebrateModal" class="gantt-modal hidden no-print" role="dialog" aria-modal="true" aria-labelledby="celebrateTitle">
+      <div class="gantt-modal__backdrop"></div>
+      <div class="gantt-modal__panel glass-card celebrate-panel">
+        <h3 class="h2 celebrate-panel__title" id="celebrateTitle"></h3>
+        <p id="celebrateBody" class="muted celebrate-panel__body"></p>
+        <label class="sr-only" for="celebrateNoteInput" id="lblCelebrateNote">Note</label>
+        <textarea id="celebrateNoteInput" class="input celebrate-panel__textarea" rows="4" maxlength="500"></textarea>
+        <div class="gantt-modal__actions celebrate-panel__actions">
+          <button type="button" class="btn btn-ghost" id="btnCelebrateSkip"></button>
+          <button type="button" class="btn btn-primary" id="btnCelebrateSave" disabled></button>
+        </div>
+      </div>
+    </div>
+
+    <div id="segmentNoteReadModal" class="gantt-modal hidden no-print" role="dialog" aria-modal="true" aria-labelledby="segmentNoteReadTitle">
+      <div class="gantt-modal__backdrop" data-close-note-read></div>
+      <div class="gantt-modal__panel glass-card">
+        <h3 class="h2" id="segmentNoteReadTitle" style="font-size:1.05rem;margin:0 0 10px"></h3>
+        <p id="segmentNoteReadBody" class="segment-note-read__body"></p>
+        <p id="segmentNoteReadDate" class="muted segment-note-read__date" style="font-size:0.85rem;margin-top:12px"></p>
+        <div class="gantt-modal__actions" style="margin-top:18px">
+          <button type="button" class="btn btn-primary" data-close-note-read id="btnSegmentNoteOk">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="printMount" class="print-mount" aria-hidden="true"></div>
+
+    <div id="pdfPreviewModal" class="pdf-preview-modal hidden no-print" role="dialog" aria-modal="true" aria-labelledby="pdfPreviewTitleEl">
+      <div class="pdf-preview-modal__backdrop" data-close-pdf></div>
+      <div class="pdf-preview-modal__panel glass-card">
+        <h2 class="h2 pdf-preview-modal__title" id="pdfPreviewTitleEl">打印预览</h2>
+        <div id="pdfPreviewSheets" class="pdf-preview-sheets"></div>
+        <div class="pdf-preview-modal__actions">
+          <button type="button" class="btn btn-secondary" id="btnSaveLocalSheet">存在本地</button>
+          <button type="button" class="btn btn-primary" id="btnPrintFromPreview">打印 / PDF</button>
+          <button type="button" class="btn btn-ghost" data-close-pdf id="btnClosePdfPreview">关闭</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./encouragement-data.js"></script>
+    <script src="./i18n-zhtw-ja.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
+
